@@ -15,7 +15,7 @@ namespace DefaultNamespace
 
         private void GameStartClick()
         {
-            GameManager.CurrentProcedure = GameProcedure.Game;
+            GameManager.CurrentState = GameState.Game;
         }
     }
 }

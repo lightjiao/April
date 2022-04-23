@@ -3,23 +3,10 @@
     public struct BasicProperty
     {
         // 属性
-        public bool IsCovId19;
-        public int Health;
-        public int MaxHealth; // 长时间健康度不够会减少最大健康度
         public int Satiety; // 饱腹感
-        public int Happy; // 快乐度
+        public int San;
         public int Money;
-
-        // 物资
         public int Food;
-        public int Medicine;
-
-        // 宠物
-        public bool HasPet;
-        public int PetFood;
-        public int PetHealth;
-        public int PetSatiety;
-        public int PetMedicine;
     }
     
     public class Player

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public enum GameProcedure
+    public enum GameState
     {
         GameInit,
         GameStart,
@@ -14,49 +14,59 @@ namespace DefaultNamespace
 
     public static class GameManager
     {
-        private static GameProcedure _gameProcedure;
+        private static GameState _currentState;
 
-        public static GameProcedure CurrentProcedure
+        public static GameState CurrentState
         {
-            get => _gameProcedure;
+            get => _currentState;
             set
             {
-                _gameProcedure = value;
+                _currentState = value;
 
-                _gameInitPanel.SetActiveEx(_gameProcedure == GameProcedure.GameInit);
-                _gameStartPanel.SetActiveEx(_gameProcedure == GameProcedure.GameStart);
-                _gamePanel.SetActiveEx(_gameProcedure == GameProcedure.Game ||
-                                       _gameProcedure == GameProcedure.GameOver);
+                _gameViewManager.gameInitPanel.SetActiveEx(_currentState == GameState.GameInit);
+                _gameViewManager.gameStartPanel.SetActiveEx(_currentState == GameState.GameStart);
+                _gameViewManager.gamePanel.SetActiveEx(_currentState == GameState.Game || _currentState == GameState.GameOver);
+                _gameViewManager.gameOverBtn.SetActive(_currentState == GameState.GameOver);
             }
         }
 
-        public static List<EventData> EventQueue { get; set; } = new List<EventData>();
-        private static Player _player;
+        private static GameViewManager _gameViewManager;
 
-        private static GameObject _gameInitPanel;
-        private static GameObject _gameStartPanel;
-        private static GameObject _gamePanel;
+        private static Player _player;
+        public static Dictionary<int, EventData> AllEvent;
+        public static List<int> CurrentEvent = new List<int>();
+
 
         public static IEnumerator Init()
         {
             // 初始化游戏
-            _gameInitPanel = GameObject.Find("GameInit");
-            _gameStartPanel = GameObject.Find("GameStart");
-            _gamePanel = GameObject.Find("Game");
-            CurrentProcedure = GameProcedure.GameInit;
+            while (_gameViewManager == null)
+            {
+                _gameViewManager = GameObject.Find("GameViewManager").GetComponent<GameViewManager>();
+                yield return null;
+            }
+
+            CurrentState = GameState.GameInit;
 
             yield return null;
 
             // 初始化资源
-            var request = Resources.LoadAsync<TextAsset>("data");
+            var request = Resources.LoadAsync<TextAsset>("Event");
             yield return request;
+            var textAsset = ((TextAsset) request.asset).text;
 
-            var textAsset = (TextAsset)request.asset;
+            var dataList = CsvParser.ParseData<EventData>(textAsset);
+            var dataDict = new Dictionary<int, EventData>();
+            foreach (var oneData in dataList)
+            {
+                dataDict[oneData.Id] = oneData;
+            }
+
+            AllEvent = dataDict;
             
-            Debug.Log(textAsset.text);
-            _player = new Player();
+            Debug.Log(AllEvent.ToString());
 
-            CurrentProcedure = GameProcedure.GameStart;
+            CurrentState = GameState.GameStart;
             yield return null;
         }
     }
