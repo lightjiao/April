@@ -41,6 +41,7 @@ namespace DefaultNamespace
             
             if (!GameManager.AllEvent.ContainsKey(_tempEventIndex))
             {
+                GameManager.CurrentState = GameState.GameOver;
                 return;
             }
             

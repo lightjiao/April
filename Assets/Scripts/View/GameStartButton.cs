@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class GameStart : MonoBehaviour
+    public class GameStartButton : MonoBehaviour
     {
         private Button _startBtn;
 

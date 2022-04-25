@@ -6,10 +6,7 @@
         public string Content;
 
         // 影响数据
-        public int Satiety; // 饱腹感
-        public int San;
-        public int Money; // 家境
-        public int Food;
+        public PropertyCollection AffectsProperties;
 
         // 事件分支
         public bool ParseOneRaw(string dataRowString)

@@ -32,10 +32,10 @@ namespace DefaultNamespace
 
         private static GameViewManager _gameViewManager;
 
-        private static Player _player;
+        public static PropertyCollection Properties;
+
         public static Dictionary<int, EventData> AllEvent;
         public static List<int> CurrentEvent = new List<int>();
-
 
         public static IEnumerator Init()
         {
