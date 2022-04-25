@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
@@ -13,27 +15,35 @@ namespace DefaultNamespace
 
         public static Branch Parse(string condition, string content)
         {
-            var inst = new Branch
+            try
             {
-                Condition = Condition.Parse(condition)
-            };
-
-            const string pattern = @"[0-9]+[\|[0-9]+]*";
-            if (Regex.IsMatch(content, pattern))
-            {
-                inst.EventPool = new List<int>();
-                var list = content.Split('|');
-                foreach (var str in list)
+                var inst = new Branch
                 {
-                    inst.EventPool.Add(int.Parse(str));
-                }
-            }
-            else
-            {
-                inst.TextContent = content;
-            }
+                    Condition = Condition.Parse(condition)
+                };
 
-            return inst;
+                if (int.TryParse(content.Replace("|", ""), out _))
+                {
+                    inst.EventPool = new List<int>();
+                    var list = content.Split('|');
+                    foreach (var str in list)
+                    {
+                        if (string.IsNullOrEmpty(str)) continue;
+                        inst.EventPool.Add(int.Parse(str));
+                    }
+                }
+                else
+                {
+                    inst.TextContent = content;
+                }
+
+                return inst;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e + condition + content);
+                return null;
+            }
         }
     }
 
@@ -49,7 +59,7 @@ namespace DefaultNamespace
         public bool Cal()
         {
             var returnResult = false;
-            
+
             if (CalAsExpression(out var result))
             {
                 returnResult = result;
@@ -135,40 +145,54 @@ namespace DefaultNamespace
         {
             // 去除空格
             conditionString = conditionString.Replace(" ", "");
-
-            var expressionList = conditionString.Split("&&");
-            Condition condition = null;
-            foreach (var str in expressionList)
+            if (string.IsNullOrEmpty(conditionString))
             {
-                if (string.IsNullOrEmpty(str)) continue;
-
-                var newCondition = new Condition
-                {
-                    AndCondition = condition
-                };
-
-                const string pattern = @"【.*】";
-                var match = Regex.Match(str, pattern);
-                newCondition.ConditionType = match.Value;
-
-                var list = str.Split(newCondition.ConditionType).ToList();
-                
-                newCondition.IsNot = list[0] == "!";
-
-                if (int.TryParse(list[1], out var intValue))
-                {
-                    newCondition.OperatorValue = intValue;
-                }
-                else
-                {
-                    newCondition.Operator = list[1][..1];
-                    newCondition.OperatorValue = int.Parse(list[1][1..]);
-                }
-
-                condition = newCondition;
+                return null;
             }
 
-            return condition;
+            try
+            {
+                var expressionList = conditionString.Split("&&");
+                Condition condition = null;
+                foreach (var str in expressionList)
+                {
+                    if (string.IsNullOrEmpty(str)) continue;
+
+                    var newCondition = new Condition
+                    {
+                        AndCondition = condition
+                    };
+
+                    const string pattern = @"【.*】";
+                    var match = Regex.Match(str, pattern);
+                    newCondition.ConditionType = match.Value;
+
+                    var list = str.Split(newCondition.ConditionType).ToList();
+
+                    newCondition.IsNot = list[0] == "!";
+                    if (!string.IsNullOrEmpty(list[1]))
+                    {
+                        if (int.TryParse(list[1], out var intValue))
+                        {
+                            newCondition.OperatorValue = intValue;
+                        }
+                        else
+                        {
+                            newCondition.Operator = list[1][..1];
+                            newCondition.OperatorValue = int.Parse(list[1][1..]);
+                        }
+                    }
+
+                    condition = newCondition;
+                }
+
+                return condition;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e + conditionString);
+                return null;
+            }
         }
     }
 }

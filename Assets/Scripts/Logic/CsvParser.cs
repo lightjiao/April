@@ -10,14 +10,14 @@ namespace DefaultNamespace
 
     public static class CsvParser
     {
-        internal static readonly char[] DataSplitSeparators = new char[] { '\t' };
-        internal static readonly char[] DataTrimSeparators = new char[] { '\"' };
-        
+        internal static readonly char[] DataSplitSeparators = new char[] {'\t'};
+        internal static readonly char[] DataTrimSeparators = new char[] {'\"'};
+
         public static List<T> ParseData<T>(string dataTableString) where T : ICsvData
         {
             var list = new List<T>();
 
-            int position = 0;
+            var position = 0;
             string dataRowString;
             while ((dataRowString = dataTableString.ReadLine(ref position)) != null)
             {
@@ -27,10 +27,10 @@ namespace DefaultNamespace
                 }
 
                 var data = Activator.CreateInstance<T>();
-                list.Add(data);
-                if (!data.ParseOneRaw(dataRowString))
+
+                if (data.ParseOneRaw(dataRowString))
                 {
-                    throw new Exception("Can not parse data row string '{dataRowString}'.");
+                    list.Add(data);
                 }
             }
 

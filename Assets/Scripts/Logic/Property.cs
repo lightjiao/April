@@ -12,6 +12,12 @@ namespace DefaultNamespace
         public Property ChangeOfTuanGou;
         public Property ChangeOfGongsiKongTou;
         public Property ChangeOfSick;
+
+        public static PropertyCollection Parse(string columnString)
+        {
+            // TODO:
+            return default;
+        }
     }
 
     public struct Property
