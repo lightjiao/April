@@ -1,12 +1,16 @@
-﻿namespace DefaultNamespace
+﻿using System.Collections.Generic;
+
+namespace DefaultNamespace
 {
-    public class EventData : ICsvData
+    public struct EventData : ICsvData
     {
         public int Id;
         public string Content;
-
-        // 影响数据
+        public string Type;
+        public int Weight;
+        public int LifeTime;
         public PropertyCollection AffectsProperties;
+        public List<Branch> Branches;
 
         // 事件分支
         public bool ParseOneRaw(string dataRowString)

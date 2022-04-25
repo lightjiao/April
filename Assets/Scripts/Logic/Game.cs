@@ -38,15 +38,17 @@ namespace DefaultNamespace
         private void ChooseEvent()
         {
             _tempEventIndex++;
-            
-            if (!GameManager.AllEvent.ContainsKey(_tempEventIndex))
+
+            if (!GameManager.EventConfigs.ContainsKey(_tempEventIndex))
             {
                 GameManager.CurrentState = GameState.GameOver;
                 return;
             }
-            
-            var data = GameManager.AllEvent[_tempEventIndex];
-            _gameContentView.AppendEvent("四月的谎言", data);
+
+            GameManager.Properties.Day++;
+
+            var data = GameManager.EventConfigs[_tempEventIndex];
+            _gameContentView.AppendEvent(GameManager.Properties.Day.ToString(), data);
         }
     }
 }

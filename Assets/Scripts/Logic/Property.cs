@@ -2,9 +2,9 @@
 
 namespace DefaultNamespace
 {
-    public class PropertyCollection
+    public struct PropertyCollection
     {
-        public Property LevelOfCommunity;
+        public Property Money;
         public Property Food;
         public Property San;
         public Property Day;
@@ -14,20 +14,29 @@ namespace DefaultNamespace
         public Property ChangeOfSick;
     }
 
-    public class Property
+    public struct Property
     {
-        public string Name { get; private set; }
-        public int Value { get; private set; }
+        public readonly string Name;
+        public int Value;
 
-        public Property(int value, string name)
+        public Property(int value, string name = null)
         {
             Value = value;
             Name = name;
         }
 
-        public bool CalChangeOnce()
+        public static Property operator +(Property a, int b)
         {
-            return Random.Range(0, 100) < Value;
+            a.Value += b;
+            return a;
         }
+
+        public static Property operator ++(Property a)
+        {
+            a.Value += 1;
+            return a;
+        }
+
+        public override string ToString() => Value.ToString();
     }
 }
