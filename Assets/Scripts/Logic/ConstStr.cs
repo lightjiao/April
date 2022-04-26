@@ -2,13 +2,14 @@
 {
     public static class ConstStr
     {
-        public const string 出生事件 = "【出生事件】";
+        public const string 天赋 = "【天赋】";
+        
         public const string 固定事件 = "【固定事件】";
         public const string 随机事件 = "【随机事件】";
         public const string 特殊事件 = "【特殊事件】";
-        public const string 天赋 = "【天赋】";
 
-        public const string 必然事件 = "【必然事件】";
+        public const string 出生事件 = "【出生事件】";
+        public const string 游戏结束 = "【必然事件】";
 
         public const string 食物 = "【食物】";
         public const string 心情 = "【心情】";

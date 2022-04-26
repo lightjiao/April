@@ -9,8 +9,10 @@ namespace DefaultNamespace
 
         public void AppendEvent(string day, EventData data)
         {
-            var a = Instantiate(eventItem, contentRoot.transform);
-            a.SetData(day, data);
+            Debug.Log($"{day}: {data.Content}");
+            
+            // var a = Instantiate(eventItem, contentRoot.transform);
+            // a.SetData(day, data);
         }
     }
 }

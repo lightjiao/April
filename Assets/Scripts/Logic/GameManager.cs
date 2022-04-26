@@ -27,6 +27,11 @@ namespace DefaultNamespace
                 _gameViewManager.gameStartPanel.SetActiveEx(_currentState == GameState.GameStart);
                 _gameViewManager.gamePanel.SetActiveEx(_currentState is GameState.Game or GameState.GameOver);
                 _gameViewManager.gameOverBtn.SetActive(_currentState == GameState.GameOver);
+
+                if (value == GameState.GameStart)
+                {
+                    HappenedEvent.Clear();
+                }
             }
         }
 
@@ -36,11 +41,13 @@ namespace DefaultNamespace
 
         public static Dictionary<int, EventData> EventConfigs = new();
 
-        public static List<int> BornEventPool = new();
-        public static List<int> DailyEventPool1 = new();
-        public static List<int> DailyEventPool2 = new();
-        public static List<int> SpecialEventPool = new();
-        public static List<int> EndingEventPool = new();
+        public static readonly List<int> DailyEventPool1 = new();
+        public static readonly List<int> DailyEventPool2 = new();
+        public static readonly List<int> SpecialEventPool = new();
+
+        public static readonly HashSet<int> GameStartPool = new();
+        public static readonly HashSet<int> GameOverPool = new();
+
         public static Dictionary<int, int> HappenedEvent = new();
 
         public static IEnumerator Init()
@@ -75,18 +82,19 @@ namespace DefaultNamespace
             {
                 dataDict[oneData.Id] = oneData;
 
-                var pool = oneData.Type switch
+                ICollection<int> pool = oneData.Type switch
                 {
-                    ConstStr.出生事件 => BornEventPool,
+                    ConstStr.出生事件 => GameStartPool,
                     ConstStr.固定事件 => DailyEventPool1,
                     ConstStr.随机事件 => DailyEventPool2,
                     ConstStr.特殊事件 => SpecialEventPool,
-                    ConstStr.必然事件 => EndingEventPool,
+                    ConstStr.游戏结束 => GameOverPool,
                     _ => DailyEventPool2
                 };
 
-                // 以权重的方式将事件添加到随即池
-                for (var i = 0; i < oneData.Weight; i++)
+                // 以权重的方式将事件添加到随即池, 但 set 类型的池就不添加权重了
+                var weight = pool is IList ? oneData.Weight : 1;
+                for (var i = 0; i < weight; i++)
                 {
                     pool.Add(oneData.Id);
                 }
