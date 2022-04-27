@@ -88,7 +88,7 @@ namespace DefaultNamespace
                     ConstStr.固定事件 => DailyEventPool1,
                     ConstStr.随机事件 => DailyEventPool2,
                     ConstStr.特殊事件 => SpecialEventPool,
-                    ConstStr.游戏结束 => GameOverPool,
+                    ConstStr.结局事件 => GameOverPool,
                     _ => DailyEventPool2
                 };
 

@@ -45,7 +45,7 @@ namespace DefaultNamespace
 
         private void CheckGameOver()
         {
-            var eventData = ChooseByConditionFirst(GameManager.GameOverPool);
+            var eventData = ChooseConditionFirst(GameManager.GameOverPool);
             if (eventData == null) return;
 
             _gameContentView.AppendEvent(GameManager.Properties.Day.ToString(), eventData.Value);
@@ -58,7 +58,7 @@ namespace DefaultNamespace
             _gameContentView.AppendEvent(GameManager.Properties.Day.ToString(), ChooseWeightFirst(eventPools));
         }
 
-        private EventData? ChooseByConditionFirst(HashSet<int> eventPool)
+        private EventData? ChooseConditionFirst(HashSet<int> eventPool)
         {
             _intsCache.Clear();
             foreach (var eventId in eventPool)
