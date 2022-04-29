@@ -8,10 +8,10 @@ namespace DefaultNamespace
         [SerializeField] private Text dayText;
         [SerializeField] private Text contentText;
 
-        public void SetData(string day, EventData data)
+        public void SetData(string day, string content)
         {
             dayText.text = day;
-            contentText.text = data.Content;
+            contentText.text = content;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
@@ -7,12 +8,13 @@ namespace DefaultNamespace
         [SerializeField] private GameObject contentRoot;
         [SerializeField] private EventItem eventItem;
 
-        private int _shownIdx = 0;
+        private int _shownIdx;
 
         private void Update()
         {
             if (GameManager.HappenedEvent.Count == 0)
             {
+                ClearShowContent();
                 _shownIdx = -1;
             }
 
@@ -33,10 +35,31 @@ namespace DefaultNamespace
 
         private void ShowEvent(string day, string content)
         {
-            Debug.Log($"{day}: {content}");
+            var a = Instantiate(eventItem, contentRoot.transform);
+            a.SetData(day, content);
+        }
 
-            // var a = Instantiate(eventItem, contentRoot.transform);
-            // a.SetData(day, data);
+        private void ClearShowContent()
+        {
+            if (_shownIdx < 0) return;
+
+            StartCoroutine(CoroutineDestroy());
+        }
+
+        private IEnumerator CoroutineDestroy()
+        {
+            while (contentRoot.transform.childCount > 0)
+            {
+                var count = 0;
+                foreach (Transform child in contentRoot.transform)
+                {
+                    Destroy(child.gameObject);
+                    count++;
+                    if (count > 10) break;
+                }
+
+                yield return null;
+            }
         }
     }
 }
