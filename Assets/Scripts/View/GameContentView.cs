@@ -13,15 +13,15 @@ namespace DefaultNamespace
         {
             if (GameManager.HappenedEvent.Count == 0)
             {
-                _shownIdx = 0;
+                _shownIdx = -1;
             }
 
-            if (GameManager.HappenedEvent.Count <= _shownIdx)
+            if (_shownIdx >= GameManager.HappenedEvent.Count - 1)
             {
                 return;
             }
 
-            while (_shownIdx < GameManager.HappenedEvent.Count)
+            while (_shownIdx < GameManager.HappenedEvent.Count - 1)
             {
                 _shownIdx++;
 
