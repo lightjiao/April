@@ -136,7 +136,7 @@ namespace DefaultNamespace
 
             if (ConditionType != ConstStr.事件) return false;
 
-            result = GameManager.HappenedEvent.ContainsKey(OperatorValue);
+            result = GameManager.HappenedEvent.Contains(OperatorValue);
 
             return true;
         }

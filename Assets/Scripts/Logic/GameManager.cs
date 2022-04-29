@@ -48,7 +48,7 @@ namespace DefaultNamespace
         public static readonly HashSet<int> GameStartPool = new();
         public static readonly HashSet<int> GameOverPool = new();
 
-        public static Dictionary<int, int> HappenedEvent = new();
+        public static readonly List<int> HappenedEvent = new();
 
         public static IEnumerator Init()
         {

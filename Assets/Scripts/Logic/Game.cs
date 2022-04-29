@@ -48,14 +48,24 @@ namespace DefaultNamespace
             var eventData = ChooseConditionFirst(GameManager.GameOverPool);
             if (eventData == null) return;
 
-            _gameContentView.AppendEvent(GameManager.Properties.Day.ToString(), eventData.Value);
+            GameManager.HappenedEvent.Add(eventData.Value.Id);
+            foreach (var branchResult in EventBranchResult(eventData.Value))
+            {
+                GameManager.HappenedEvent.Add(branchResult);
+            }
 
             GameManager.CurrentState = GameState.GameOver;
         }
 
         private void ShowDailyEvent(IReadOnlyList<int> eventPools)
         {
-            _gameContentView.AppendEvent(GameManager.Properties.Day.ToString(), ChooseWeightFirst(eventPools));
+            var eventData = ChooseWeightFirst(eventPools);
+
+            GameManager.HappenedEvent.Add(eventData.Id);
+            foreach (var branchResult in EventBranchResult(eventData))
+            {
+                GameManager.HappenedEvent.Add(branchResult);
+            }
         }
 
         private EventData? ChooseConditionFirst(HashSet<int> eventPool)
@@ -93,6 +103,28 @@ namespace DefaultNamespace
             }
 
             throw new Exception("没有可以选择的事件");
+        }
+
+        private readonly List<int> _eventCache = new();
+
+        private List<int> EventBranchResult(EventData eventData)
+        {
+            _eventCache.Clear();
+
+            if (eventData.Branches == null || eventData.Branches.Count == 0)
+            {
+                return _eventCache;
+            }
+
+            foreach (var branch in eventData.Branches)
+            {
+                if (branch.Condition != null && !branch.Condition.Cal()) continue;
+                if (branch.EventPool == null || branch.EventPool.Count == 0) continue;
+
+                _eventCache.Add(UnityEngine.Random.Range(0, branch.EventPool.Count));
+            }
+
+            return _eventCache;
         }
     }
 }
