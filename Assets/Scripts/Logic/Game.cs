@@ -6,17 +6,14 @@ namespace DefaultNamespace
 {
     public class Game : MonoBehaviour
     {
-        private const float IntervalTime = 0.7f;
-        private float _intervalTimer;
+        private readonly SimpleTimer _timer = new(1);
 
         private readonly List<int> _intsCache = new();
 
         private void Update()
         {
-            _intervalTimer += Time.deltaTime;
-            if (_intervalTimer > IntervalTime)
+            if (_timer.UpdateCheck(Time.deltaTime))
             {
-                _intervalTimer = 0f;
                 UpdateOneDay();
             }
         }
