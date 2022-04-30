@@ -6,17 +6,10 @@ namespace DefaultNamespace
 {
     public class Game : MonoBehaviour
     {
-        private GameContentView _gameContentView;
-
         private const float IntervalTime = 0.7f;
         private float _intervalTimer;
 
         private readonly List<int> _intsCache = new();
-
-        private void Awake()
-        {
-            _gameContentView = GetComponentInChildren<GameContentView>();
-        }
 
         private void Update()
         {
@@ -32,14 +25,10 @@ namespace DefaultNamespace
         {
             if (GameManager.CurrentState != GameState.Game) return;
 
-            CheckGameOver();
-
-            if (GameManager.CurrentState != GameState.Game) return;
-
             ShowDailyEvent(GameManager.DailyEventPool1);
             ShowDailyEvent(GameManager.DailyEventPool2);
             ShowDailyEvent(GameManager.SpecialEventPool);
-
+            CheckGameOver();
             GameManager.Properties.Day++;
         }
 

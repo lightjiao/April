@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Text;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
     public class GameContentView : MonoBehaviour
     {
-        [SerializeField] private GameObject contentRoot;
+        [SerializeField] private RectTransform contentRoot;
         [SerializeField] private EventItem eventItem;
 
         private int _shownIdx;
+        private readonly StringBuilder _sb = new();
 
         private void Update()
         {
@@ -23,19 +26,20 @@ namespace DefaultNamespace
                 return;
             }
 
+            _sb.Clear();
             while (_shownIdx < GameManager.HappenedEvent.Count - 1)
             {
                 _shownIdx++;
-
                 var eventId = GameManager.HappenedEvent[_shownIdx];
                 var eventData = GameManager.EventConfigs[eventId];
-                ShowEvent(GameManager.Properties.Day.ToString(), eventData.Content);
+                _sb.AppendLine(eventData.Content);
             }
+            ShowEvent($"第{GameManager.Properties.Day.ToString()}天", _sb.ToString());
         }
 
         private void ShowEvent(string day, string content)
         {
-            var a = Instantiate(eventItem, contentRoot.transform);
+            var a = Instantiate(eventItem, contentRoot);
             a.SetData(day, content);
         }
 
@@ -43,15 +47,15 @@ namespace DefaultNamespace
         {
             if (_shownIdx < 0) return;
 
-            StartCoroutine(CoroutineDestroy());
+            StartCoroutine(ClearShowContentCoroutine());
         }
 
-        private IEnumerator CoroutineDestroy()
+        private IEnumerator ClearShowContentCoroutine()
         {
-            while (contentRoot.transform.childCount > 0)
+            while (contentRoot.childCount > 0)
             {
                 var count = 0;
-                foreach (Transform child in contentRoot.transform)
+                foreach (Transform child in contentRoot)
                 {
                     Destroy(child.gameObject);
                     count++;
@@ -60,6 +64,8 @@ namespace DefaultNamespace
 
                 yield return null;
             }
+            
+            contentRoot.sizeDelta = new Vector2(contentRoot.rect.width, 0);
         }
     }
 }
