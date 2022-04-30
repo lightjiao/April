@@ -39,9 +39,10 @@ namespace DefaultNamespace
 
             var parentRect = _parent.rect;
             parentRect.height += contentHeight;
-            parentRect.xMin = 0f;
-            parentRect.xMax = 0f;
-            // parentRect.position += contentHeight;
+
+            var position = _parent.position;
+            position.y += contentHeight * 3;
+            _parent.position = position;
         }
     }
 }
