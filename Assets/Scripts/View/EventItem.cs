@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections;
-using TMPro;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
     public class EventItem : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI dayText;
-        [SerializeField] private TextMeshProUGUI contentText;
+        [SerializeField] private Text dayText;
+        [SerializeField] private Text contentText;
 
         private RectTransform _parent;
 
