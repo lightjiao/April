@@ -325,7 +325,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u7B2C1\u5929"
+  m_text: "\u7B2C17\u5929"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebf1e9141017e6447a01dcac7a830be1, type: 2}
   m_sharedMaterial: {fileID: 21232592507145202, guid: ebf1e9141017e6447a01dcac7a830be1,
@@ -353,8 +353,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
-  m_fontSizeBase: 55
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
