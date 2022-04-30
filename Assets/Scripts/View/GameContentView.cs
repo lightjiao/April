@@ -8,7 +8,7 @@ namespace DefaultNamespace
     public class GameContentView : MonoBehaviour
     {
         [SerializeField] private RectTransform contentRoot;
-        [SerializeField] private EventItem eventItem;
+        [SerializeField] private EventView eventView;
 
         private int _shownIdx;
         private readonly StringBuilder _sb = new();
@@ -39,7 +39,7 @@ namespace DefaultNamespace
 
         private void ShowEvent(string day, string content)
         {
-            var a = Instantiate(eventItem, contentRoot);
+            var a = Instantiate(eventView, contentRoot);
             a.SetData(day, content);
         }
 

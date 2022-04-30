@@ -944,7 +944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentRoot: {fileID: 1267095161}
-  eventItem: {fileID: 2345493524878784777, guid: 5fe87094c2533bb4d8728ae0bd638829,
+  eventView: {fileID: 2345493524878784777, guid: 5fe87094c2533bb4d8728ae0bd638829,
     type: 3}
 --- !u!1 &1191683151
 GameObject:

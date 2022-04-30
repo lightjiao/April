@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class EventItem : MonoBehaviour
+    public class EventView : MonoBehaviour
     {
         [SerializeField] private Text dayText;
         [SerializeField] private Text contentText;
