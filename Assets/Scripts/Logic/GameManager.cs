@@ -50,6 +50,41 @@ namespace DefaultNamespace
 
         public static readonly List<int> HappenedEvent = new();
 
+        public static void AddHappenedEvent(int eventId)
+        {
+            HappenedEvent.Add(eventId);
+            var eventData = EventConfigs[eventId];
+
+            Properties.Add(eventData.AffectsProperties);
+
+            foreach (var branchResult in EventBranchResult(eventData))
+            {
+                AddHappenedEvent(branchResult);
+            }
+        }
+
+        private static readonly List<int> EventCache = new();
+
+        private static List<int> EventBranchResult(in EventData eventData)
+        {
+            EventCache.Clear();
+
+            if (eventData.Branches == null || eventData.Branches.Count == 0)
+            {
+                return EventCache;
+            }
+
+            foreach (var branch in eventData.Branches)
+            {
+                if (branch.Condition != null && !branch.Condition.Cal()) continue;
+                if (branch.EventPool == null || branch.EventPool.Count == 0) continue;
+
+                EventCache.Add(Random.Range(0, branch.EventPool.Count));
+            }
+
+            return EventCache;
+        }
+
         public static IEnumerator Init()
         {
             // 初始化游戏

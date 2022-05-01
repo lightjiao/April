@@ -84,10 +84,10 @@ namespace DefaultNamespace
 
             int? variableValue = ConditionType switch
             {
-                ConstStr.食物 => GameManager.Properties.Food.Value,
-                ConstStr.心情 => GameManager.Properties.San.Value,
-                ConstStr.天数 => GameManager.Properties.Day.Value,
-                ConstStr.家境 => GameManager.Properties.Money.Value,
+                ConstStr.食物 => GameManager.Properties.Food,
+                ConstStr.心情 => GameManager.Properties.San,
+                ConstStr.天数 => GameManager.Properties.Day,
+                ConstStr.家境 => GameManager.Properties.Money,
                 _ => null
             };
 
@@ -113,10 +113,10 @@ namespace DefaultNamespace
 
             int? variableValue = ConditionType switch
             {
-                ConstStr.抢菜概率 => GameManager.Properties.ChangeOfQiangCai.Value,
-                ConstStr.团购概率 => GameManager.Properties.ChangeOfTuanGou.Value,
-                ConstStr.公司空投 => GameManager.Properties.ChangeOfGongsiKongTou.Value,
-                ConstStr.染病概率 => GameManager.Properties.ChangeOfSick.Value,
+                ConstStr.抢菜概率 => GameManager.Properties.ChanceOfQiangCai,
+                ConstStr.团购概率 => GameManager.Properties.ChanceOfTuanGou,
+                ConstStr.公司空投 => GameManager.Properties.ChanceOfGongsiKongTou,
+                ConstStr.染病概率 => GameManager.Properties.ChanceOfSick,
                 _ => null
             };
 

@@ -11,7 +11,6 @@ namespace DefaultNamespace
         public int Weight;
         public Condition Condition;
         public string Content;
-        public int LifeTime;
         public PropertyCollection AffectsProperties;
         public List<Branch> Branches;
 
@@ -32,7 +31,7 @@ namespace DefaultNamespace
                 if (columnStrings[3] == "")
                 {
                     Debug.LogWarning("EventData: " + Id + " has no weight, default as 1");
-                    Weight = 1;
+                    Weight = 0;
                 }
                 else
                 {
@@ -41,7 +40,6 @@ namespace DefaultNamespace
 
                 Condition = Condition.Parse(columnStrings[4]);
                 Content = columnStrings[5];
-                LifeTime = columnStrings[6] == "" ? 999 : int.Parse(columnStrings[6]);
                 AffectsProperties = PropertyCollection.Parse(columnStrings[7]);
                 Branches = new List<Branch>
                 {
