@@ -67,7 +67,7 @@ namespace DefaultNamespace
 
         private static readonly List<int> EventCache = new();
 
-        private static unsafe Span<int> EventBranchResult(in EventData eventData)
+        private static Span<int> EventBranchResult(in EventData eventData)
         {
             EventCache.Clear();
 
@@ -84,13 +84,16 @@ namespace DefaultNamespace
                 EventCache.Add(branch.EventPool[Random.Range(0, branch.EventPool.Count)]);
             }
 
-            var result = stackalloc int[EventCache.Count];
-            for (var i = 0; i < EventCache.Count; i++)
+            unsafe
             {
-                result[i] = EventCache[i];
-            }
+                var result = stackalloc int[EventCache.Count];
+                for (var i = 0; i < EventCache.Count; i++)
+                {
+                    result[i] = EventCache[i];
+                }
 
-            return new Span<int>(result, EventCache.Count);
+                return new Span<int>(result, EventCache.Count);
+            }
         }
 
         public static IEnumerator Init()
