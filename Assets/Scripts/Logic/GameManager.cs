@@ -54,17 +54,16 @@ namespace DefaultNamespace
 
         public static void AddHappenedEvent(int eventId)
         {
-            var eventData = new EventData();
-            try
+            // 不知道为什么有时候会出一些不存在的ID，这里做一下粗暴的检查
+            if (!EventConfigs.ContainsKey(eventId))
             {
-                HappenedEvent.Add(eventId);
-                eventData = EventConfigs[eventId];
-                Properties.Add(eventData.AffectsProperties);
+                Debug.LogError("出现了很奇怪的事件ID: " + eventId);
+                return;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+
+            HappenedEvent.Add(eventId);
+            var eventData = EventConfigs[eventId];
+            Properties.Add(eventData.AffectsProperties);
 
             Debug.Log($"当前属性: {Properties}");
 
