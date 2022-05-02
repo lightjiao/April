@@ -11,6 +11,10 @@ namespace DefaultNamespace
 
         private RectTransform _parent;
 
+        private readonly SimpleTimer _delayScrollViewTimer = new(0.2f, 1);
+
+        private bool _updateScrollView;
+
         private void Awake()
         {
             _parent = transform.parent.GetComponent<RectTransform>();
@@ -21,27 +25,34 @@ namespace DefaultNamespace
             dayText.text = day;
             contentText.text = content;
 
-            StartCoroutine(DelayUpdateView());
+            StartCoroutine(DelayUpdateScrollView());
         }
 
-
-        private IEnumerator DelayUpdateView()
+        private IEnumerator DelayUpdateScrollView()
         {
-            // 我不管，我要延迟3帧
+            // 不知道为什么延迟3帧才能先获取 TMP 扩展后的 Text 的高度
             yield return null;
             yield return null;
             yield return null;
+            UpdateScrollView();
+        }
+        
 
+        private void UpdateScrollView()
+        {
             var contentHeight = contentText.GetComponent<RectTransform>().rect.height;
+
             var rectTrans = GetComponent<RectTransform>();
             rectTrans.sizeDelta = new Vector2(rectTrans.sizeDelta.x, contentHeight + 20);
 
-            var parentRect = _parent.rect;
-            parentRect.height += contentHeight;
+            var parentTrans = _parent.GetComponent<RectTransform>();
+            var sizeDelta = parentTrans.sizeDelta;
+            sizeDelta = new Vector2(sizeDelta.x, sizeDelta.y + contentHeight + 20);
+            parentTrans.sizeDelta = sizeDelta;
 
-            var position = _parent.position;
-            position.y += contentHeight * 3;
-            _parent.position = position;
+            var parentPos = _parent.position;
+            parentPos.y += contentHeight * 3;
+            _parent.position = parentPos;
         }
     }
 }
