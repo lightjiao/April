@@ -65,7 +65,7 @@ namespace DefaultNamespace
             {
                 Console.WriteLine(e);
             }
-            
+
             Debug.Log($"当前属性: {Properties}");
 
             var branch = EventBranchResult(eventData);
@@ -165,14 +165,14 @@ namespace DefaultNamespace
         private static void GameStart()
         {
             HappenedEvent.Clear();
-            Properties.Money = 5;
-            Properties.Food = 5;
-            Properties.San = 5;
             Properties.Day = 0;
-            Properties.ChanceOfQiangCai = 5;
-            Properties.ChanceOfTuanGou = 50;
-            Properties.ChanceOfGongsiKongTou = 10;
-            Properties.ChanceOfSick = 10;
+            Properties.Money = Random.Range(1, 10);
+            Properties.Food = Random.Range(1, 10);
+            Properties.San = Random.Range(1, 10);
+            Properties.ChanceOfQiangCai = Random.Range(1, 100);
+            Properties.ChanceOfTuanGou = Random.Range(1, 100);
+            Properties.ChanceOfGongsiKongTou = Random.Range(1, 100);
+            Properties.ChanceOfSick = Random.Range(1, 100);
         }
     }
 }
