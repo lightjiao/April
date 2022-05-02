@@ -13,6 +13,11 @@ namespace DefaultNamespace
         public float ChanceOfGongsiKongTou;
         public float ChanceOfSick;
 
+        public override string ToString()
+        {
+            return $"Money:{Money} Food:{Food} San:{San} Day:{Day}";
+        }
+
         public void Add(in PropertyCollection other)
         {
             Money += other.Money;

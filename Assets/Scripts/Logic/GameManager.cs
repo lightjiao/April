@@ -32,7 +32,7 @@ namespace DefaultNamespace
 
                 if (value == GameState.GameStart)
                 {
-                    HappenedEvent.Clear();
+                    GameStart();
                 }
             }
         }
@@ -54,12 +54,22 @@ namespace DefaultNamespace
 
         public static void AddHappenedEvent(int eventId)
         {
-            HappenedEvent.Add(eventId);
-            var eventData = EventConfigs[eventId];
+            var eventData = new EventData();
+            try
+            {
+                HappenedEvent.Add(eventId);
+                eventData = EventConfigs[eventId];
+                Properties.Add(eventData.AffectsProperties);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
+            Debug.Log($"当前属性: {Properties}");
 
-            Properties.Add(eventData.AffectsProperties);
-
-            foreach (var branchResult in EventBranchResult(eventData))
+            var branch = EventBranchResult(eventData);
+            foreach (var branchResult in branch)
             {
                 AddHappenedEvent(branchResult);
             }
@@ -150,6 +160,19 @@ namespace DefaultNamespace
             EventConfigs = dataDict;
 
             Debug.Log(EventConfigs.ToString());
+        }
+
+        private static void GameStart()
+        {
+            HappenedEvent.Clear();
+            Properties.Money = 5;
+            Properties.Food = 5;
+            Properties.San = 5;
+            Properties.Day = 0;
+            Properties.ChanceOfQiangCai = 5;
+            Properties.ChanceOfTuanGou = 50;
+            Properties.ChanceOfGongsiKongTou = 10;
+            Properties.ChanceOfSick = 10;
         }
     }
 }
