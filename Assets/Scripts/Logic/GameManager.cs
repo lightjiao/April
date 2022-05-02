@@ -165,9 +165,9 @@ namespace DefaultNamespace
         {
             HappenedEvent.Clear();
             Properties.Day = 0;
-            Properties.Money = Random.Range(1, 10);
-            Properties.Food = Random.Range(1, 10);
-            Properties.San = Random.Range(1, 10);
+            Properties.Money = Random.Range(1, 12);
+            Properties.Food = Random.Range(1, 11);
+            Properties.San = Random.Range(1, 11);
             Properties.ChanceOfQiangCai = Random.Range(1, 100);
             Properties.ChanceOfTuanGou = Random.Range(1, 100);
             Properties.ChanceOfGongsiKongTou = Random.Range(1, 100);
