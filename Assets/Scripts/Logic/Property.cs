@@ -4,14 +4,14 @@ namespace DefaultNamespace
 {
     public struct PropertyCollection
     {
-        public int Money;
-        public int Food;
-        public int San;
-        public int Day;
-        public int ChanceOfQiangCai;
-        public int ChanceOfTuanGou;
-        public int ChanceOfGongsiKongTou;
-        public int ChanceOfSick;
+        public float Money;
+        public float Food;
+        public float San;
+        public float Day;
+        public float ChanceOfQiangCai;
+        public float ChanceOfTuanGou;
+        public float ChanceOfGongsiKongTou;
+        public float ChanceOfSick;
 
         public void Add(in PropertyCollection other)
         {
@@ -44,7 +44,7 @@ namespace DefaultNamespace
                 }
 
                 var propertyName = property[..(idx + 1)];
-                var propertyValue = int.Parse(property[(idx + 1)..]);
+                var propertyValue = float.Parse(property[(idx + 1)..]);
 
                 switch (propertyName)
                 {

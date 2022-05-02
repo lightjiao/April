@@ -11,7 +11,6 @@ namespace DefaultNamespace
     {
         public Condition Condition;
         public List<int> EventPool;
-        public string TextContent;
 
         public static Branch Parse(string condition, string content)
         {
@@ -19,22 +18,15 @@ namespace DefaultNamespace
             {
                 var inst = new Branch
                 {
-                    Condition = Condition.Parse(condition)
+                    Condition = Condition.Parse(condition),
+                    EventPool = new List<int>()
                 };
 
-                if (int.TryParse(content.Replace("|", ""), out _))
+                var list = content.Split('|');
+                foreach (var str in list)
                 {
-                    inst.EventPool = new List<int>();
-                    var list = content.Split('|');
-                    foreach (var str in list)
-                    {
-                        if (string.IsNullOrEmpty(str)) continue;
-                        inst.EventPool.Add(int.Parse(str));
-                    }
-                }
-                else
-                {
-                    inst.TextContent = content;
+                    if (string.IsNullOrEmpty(str)) continue;
+                    inst.EventPool.Add(int.Parse(str));
                 }
 
                 return inst;
@@ -82,7 +74,7 @@ namespace DefaultNamespace
         {
             result = false;
 
-            int? variableValue = ConditionType switch
+            float? variableValue = ConditionType switch
             {
                 ConstStr.食物 => GameManager.Properties.Food,
                 ConstStr.心情 => GameManager.Properties.San,
@@ -100,7 +92,7 @@ namespace DefaultNamespace
             {
                 ">" => variableValue > OperatorValue,
                 "<" => variableValue < OperatorValue,
-                "=" => variableValue == OperatorValue,
+                "=" => Mathf.Approximately(variableValue.Value, OperatorValue),
                 _ => result
             };
 
@@ -111,7 +103,7 @@ namespace DefaultNamespace
         {
             result = false;
 
-            int? variableValue = ConditionType switch
+            float? variableValue = ConditionType switch
             {
                 ConstStr.抢菜概率 => GameManager.Properties.ChanceOfQiangCai,
                 ConstStr.团购概率 => GameManager.Properties.ChanceOfTuanGou,

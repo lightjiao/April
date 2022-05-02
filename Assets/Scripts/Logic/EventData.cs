@@ -40,11 +40,11 @@ namespace DefaultNamespace
 
                 Condition = Condition.Parse(columnStrings[4]);
                 Content = columnStrings[5];
-                AffectsProperties = PropertyCollection.Parse(columnStrings[7]);
+                AffectsProperties = PropertyCollection.Parse(columnStrings[6]);
                 Branches = new List<Branch>
                 {
-                    Branch.Parse(columnStrings[8], columnStrings[9]),
-                    Branch.Parse(columnStrings[10], columnStrings[11])
+                    Branch.Parse(columnStrings[7], columnStrings[8]),
+                    Branch.Parse(columnStrings[9], columnStrings[10])
                 };
 
                 return true;

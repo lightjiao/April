@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
@@ -65,13 +67,13 @@ namespace DefaultNamespace
 
         private static readonly List<int> EventCache = new();
 
-        private static List<int> EventBranchResult(in EventData eventData)
+        private static unsafe Span<int> EventBranchResult(in EventData eventData)
         {
             EventCache.Clear();
 
             if (eventData.Branches == null || eventData.Branches.Count == 0)
             {
-                return EventCache;
+                return new Span<int>();
             }
 
             foreach (var branch in eventData.Branches)
@@ -79,10 +81,16 @@ namespace DefaultNamespace
                 if (branch.Condition != null && !branch.Condition.Cal()) continue;
                 if (branch.EventPool == null || branch.EventPool.Count == 0) continue;
 
-                EventCache.Add(Random.Range(0, branch.EventPool.Count));
+                EventCache.Add(branch.EventPool[Random.Range(0, branch.EventPool.Count)]);
             }
 
-            return EventCache;
+            var result = stackalloc int[EventCache.Count];
+            for (var i = 0; i < EventCache.Count; i++)
+            {
+                result[i] = EventCache[i];
+            }
+
+            return new Span<int>(result, EventCache.Count);
         }
 
         public static IEnumerator Init()
@@ -124,8 +132,9 @@ namespace DefaultNamespace
                     ConstStr.随机事件 => DailyEventPool2,
                     ConstStr.特殊事件 => SpecialEventPool,
                     ConstStr.结局事件 => GameOverPool,
-                    _ => DailyEventPool2
+                    _ => null
                 };
+                if (pool == null) continue;
 
                 // 以权重的方式将事件添加到随即池, 但 set 类型的池就不添加权重了
                 var weight = pool is IList ? oneData.Weight : 1;

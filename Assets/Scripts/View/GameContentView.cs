@@ -34,7 +34,7 @@ namespace DefaultNamespace
                 var eventData = GameManager.EventConfigs[eventId];
                 _sb.AppendLine(eventData.Content);
             }
-            ShowEvent($"第{GameManager.Properties.Day.ToString()}天", _sb.ToString());
+            ShowEvent($"第{(int)GameManager.Properties.Day}天", _sb.ToString());
         }
 
         private void ShowEvent(string day, string content)
